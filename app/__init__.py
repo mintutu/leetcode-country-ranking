@@ -12,7 +12,7 @@ from app.leetcode_user import User
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
 
-MAX_PAGE = os.getenv("MAX_PAGE_LEET_CODE", 15)
+MAX_PAGE = int(os.getenv("MAX_PAGE_LEET_CODE", "15"))
 SCANNER_ENABLED = os.getenv("SCANNER_ENABLED", "True")
 
 def craw_leetcode(page):
