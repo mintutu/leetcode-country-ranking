@@ -10,7 +10,7 @@ from . import db_mongo
 from app.leetcode_user import User
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
-MAX_PAGE = 10
+MAX_PAGE = 4000
 
 def craw_leetcode(page):
 	try:
@@ -48,7 +48,7 @@ def scan_ranking():
 		users = craw_leetcode(i)
 		db_mongo.delete_users_by_page(i)
 		result = db_mongo.insert_users(users)
-		print (result)
+		print ("Inserted to DB page " + str(i))
 		time.sleep(3)
 
 def start_scan():
@@ -82,5 +82,16 @@ def search_by_country(country_name):
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+def ping():
+	try:
+		while True:
+			time.sleep(60 * 15)
+			requests.get("https://leetcode-country-ranking.herokuapp.com/")	
+	except Exception as e:
+		print(e)
+
 t1 = threading.Thread(target=start_scan)
 t1.start()
+
+t2 = threading.Thread(target=ping)
+t2.start()
