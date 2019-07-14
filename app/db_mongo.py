@@ -5,7 +5,7 @@ from pymongo import IndexModel, ASCENDING, DESCENDING
 from app.leetcode_user import User
 
 mongo_url = os.environ["MONGODB_URI"]
-mongo_db_name = os.getenv("MONGODB_NAME", "LEECODE_DB")
+mongo_db_name = os.getenv("MONGODB_NAME", "heroku_sz7kmqc0")
 #Local "mongodb://root:example@localhost:27017/"
 myclient = pymongo.MongoClient(mongo_url)
 mydb = myclient[mongo_db_name]
@@ -13,11 +13,13 @@ mydb = myclient[mongo_db_name]
 def create_indexes():
     try:
         users_collection = mydb.users
-        index = 'country_code'
-        if 'country_code_1' in map(lambda x: x['name'], users_collection.list_indexes()):
-            users_collection.reindex(index)
-        else:
-            users_collection.create_index(index)
+        indexes = ['country_code', 'user_name', 'real_name']
+        existed_indexes = list(map(lambda x: x['name'], users_collection.list_indexes()))
+        if len(existed_indexes) > len(indexes):
+            users_collection.reindex()
+        for index in indexes:
+            if (index + "_1") not in existed_indexes:
+                users_collection.create_index(index)
     except Exception as e:
         print(e)
 
