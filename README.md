@@ -1,5 +1,5 @@
 # leetcode-country-ranking
-Craw LeetCode global ranking and supports to filter by country
+Crawling LeetCode Global Ranking and Building a website to support search/find by country and username.
 
 ## Getting Started
 Because LeetCode does not support to filter the ranking by country, so I write some small scripts to craw global ranking data in LeetCode. It helps to search, filter by user name or countries.
