@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>LeetCode Ranking</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  </head>
+  <body>    
+    <div class="container">
+        <div class="head">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="span6">
+                        <h1 class="muted">LeetCode Global Ranking</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ pagination.links }}
+      <div class="table-responsive">          
+        <table class="table table-hover table-striped table-fixed">
+          <thead>
+            <tr>
+              <th>Global Ranking</th>
+              <th>Ranking</th>
+              <th>User Name</th>
+              <th>Real Name</th>
+              <th>Country Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>{{ user.global_ranking }}</td>
+              <td>{{ user.ranking }}</td>
+              <td><a href="https://leetcode.com/{{ user.user_name }}">{{ user.user_name }}</a></td>
+              <td>{{ user.real_name }}</td>
+              <td>{{ user.country_name }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {{ pagination.links }}
+    </div>
+  </body>
+</html>
