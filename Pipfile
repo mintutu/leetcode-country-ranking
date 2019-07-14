@@ -9,5 +9,6 @@ django-heroku = "*"
 requests = "*"
 flask = "*"
 pymongo = "*"
+flask-paginate = "*"
 [requires]
 python_version = "3.7"

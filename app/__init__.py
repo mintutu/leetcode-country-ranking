@@ -7,7 +7,6 @@ import os
 import json
 import time
 from . import db_mongo
-from pymongo import IndexModel, ASCENDING, DESCENDING
 from app.leetcode_user import User
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')

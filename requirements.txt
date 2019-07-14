@@ -1,3 +1,4 @@
-pymongo==3.8.0
-requests==2.20.0
 Flask==1.1.1
+pymongo==3.8.0
+requests==2.13.0
+flask_paginate==0.5.3
