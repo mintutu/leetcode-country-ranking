@@ -2,9 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>LeetCode Ranking</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>        
+    <style>
+            /* Style the input field */
+            #countryInput {
+              padding: 20px;
+              margin-top: -6px;
+              border: 0;
+              border-radius: 0;
+              background: #f1f1f1;
+            }
+            </style>    
   </head>
   <body>    
     <div class="container">
@@ -17,11 +29,268 @@
                 </div>
             </div>
         </div>
+        <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Country
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <input class="form-control" id="countryInput" type="text" placeholder="Search..">
+                  <li><a href="/">All countries</a></li>
+                  <li><a href="/country/AF">Afghanistan</a></li>
+                  <li><a href="/country/AL">Albania</a></li>
+                  <li><a href="/country/DZ">Algeria</a></li>
+                  <li><a href="/country/AS">American Samoa</a></li>
+                  <li><a href="/country/AD">Andorra</a></li>
+                  <li><a href="/country/AO">Angola</a></li>
+                  <li><a href="/country/AI">Anguilla</a></li>
+                  <li><a href="/country/AQ">Antarctica</a></li>
+                  <li><a href="/country/AG">Antigua and Barbuda</a></li>
+                  <li><a href="/country/AR">Argentina</a></li>
+                  <li><a href="/country/AM">Armenia</a></li>
+                  <li><a href="/country/AW">Aruba</a></li>
+                  <li><a href="/country/AU">Australia</a></li>
+                  <li><a href="/country/AT">Austria</a></li>
+                  <li><a href="/country/AZ">Azerbaijan</a></li>
+                  <li><a href="/country/BH">Bahrain</a></li>
+                  <li><a href="/country/BS">Bahamas</a></li>
+                  <li><a href="/country/BD">Bangladesh</a></li>
+                  <li><a href="/country/BB">Barbados</a></li>
+                  <li><a href="/country/BY">Belarus</a></li>
+                  <li><a href="/country/BE">Belgium</a></li>
+                  <li><a href="/country/BZ">Belize</a></li>
+                  <li><a href="/country/BJ">Benin</a></li>
+                  <li><a href="/country/BM">Bermuda</a></li>
+                  <li><a href="/country/BT">Bhutan</a></li>
+                  <li><a href="/country/BO">Bolivia, Plurinational State of</a></li>
+                  <li><a href="/country/BQ">Bonaire, Sint Eustatius and Saba</a></li>
+                  <li><a href="/country/BA">Bosnia and Herzegovina</a></li>
+                  <li><a href="/country/BW">Botswana</a></li>
+                  <li><a href="/country/BV">Bouvet Island</a></li>
+                  <li><a href="/country/BR">Brazil</a></li>
+                  <li><a href="/country/IO">British Indian Ocean Territory</a></li>
+                  <li><a href="/country/BN">Brunei Darussalam</a></li>
+                  <li><a href="/country/BG">Bulgaria</a></li>
+                  <li><a href="/country/BF">Burkina Faso</a></li>
+                  <li><a href="/country/BI">Burundi</a></li>
+                  <li><a href="/country/KH">Cambodia</a></li>
+                  <li><a href="/country/CM">Cameroon</a></li>
+                  <li><a href="/country/CA">Canada</a></li>
+                  <li><a href="/country/CV">Cape Verde</a></li>
+                  <li><a href="/country/KY">Cayman Islands</a></li>
+                  <li><a href="/country/CF">Central African Republic</a></li>
+                  <li><a href="/country/TD">Chad</a></li>
+                  <li><a href="/country/CL">Chile</a></li>
+                  <li><a href="/country/CN">China</a></li>
+                  <li><a href="/country/CX">Christmas Island</a></li>
+                  <li><a href="/country/CC">Cocos (Keeling) Islands</a></li>
+                  <li><a href="/country/CO">Colombia</a></li>
+                  <li><a href="/country/KM">Comoros</a></li>
+                  <li><a href="/country/CG">Congo</a></li>
+                  <li><a href="/country/CD">Congo, the Democratic Republic of the</a></li>
+                  <li><a href="/country/CK">Cook Islands</a></li>
+                  <li><a href="/country/CR">Costa Rica</a></li>
+                  <li><a href="/country/CI">Côte d'Ivoire</a></li>
+                  <li><a href="/country/HR">Croatia</a></li>
+                  <li><a href="/country/CU">Cuba</a></li>
+                  <li><a href="/country/CW">Curaçao</a></li>
+                  <li><a href="/country/CY">Cyprus</a></li>
+                  <li><a href="/country/CZ">Czech Republic</a></li>
+                  <li><a href="/country/DK">Denmark</a></li>
+                  <li><a href="/country/DJ">Djibouti</a></li>
+                  <li><a href="/country/DM">Dominica</a></li>
+                  <li><a href="/country/DO">Dominican Republic</a></li>
+                  <li><a href="/country/EC">Ecuador</a></li>
+                  <li><a href="/country/EG">Egypt</a></li>
+                  <li><a href="/country/SV">El Salvador</a></li>
+                  <li><a href="/country/GQ">Equatorial Guinea</a></li>
+                  <li><a href="/country/ER">Eritrea</a></li>
+                  <li><a href="/country/EE">Estonia</a></li>
+                  <li><a href="/country/ET">Ethiopia</a></li>
+                  <li><a href="/country/FK">Falkland Islands (Malvinas)</a></li>
+                  <li><a href="/country/FO">Faroe Islands</a></li>
+                  <li><a href="/country/FJ">Fiji</a></li>
+                  <li><a href="/country/FI">Finland</a></li>
+                  <li><a href="/country/FR">France</a></li>
+                  <li><a href="/country/GF">French Guiana</a></li>
+                  <li><a href="/country/PF">French Polynesia</a></li>
+                  <li><a href="/country/TF">French Southern Territories</a></li>
+                  <li><a href="/country/GA">Gabon</a></li>
+                  <li><a href="/country/GM">Gambia</a></li>
+                  <li><a href="/country/GE">Georgia</a></li>
+                  <li><a href="/country/DE">Germany</a></li>
+                  <li><a href="/country/GH">Ghana</a></li>
+                  <li><a href="/country/GI">Gibraltar</a></li>
+                  <li><a href="/country/GR">Greece</a></li>
+                  <li><a href="/country/GL">Greenland</a></li>
+                  <li><a href="/country/GD">Grenada</a></li>
+                  <li><a href="/country/GP">Guadeloupe</a></li>
+                  <li><a href="/country/GU">Guam</a></li>
+                  <li><a href="/country/GT">Guatemala</a></li>
+                  <li><a href="/country/GG">Guernsey</a></li>
+                  <li><a href="/country/GN">Guinea</a></li>
+                  <li><a href="/country/GW">Guinea-Bissau</a></li>
+                  <li><a href="/country/GY">Guyana</a></li>
+                  <li><a href="/country/HT">Haiti</a></li>
+                  <li><a href="/country/HM">Heard Island and McDonald Islands</a></li>
+                  <li><a href="/country/HN">Honduras</a></li>
+                  <li><a href="/country/HK">Hong Kong</a></li>
+                  <li><a href="/country/HU">Hungary</a></li>
+                  <li><a href="/country/IS">Iceland</a></li>
+                  <li><a href="/country/IN">India</a></li>
+                  <li><a href="/country/ID">Indonesia</a></li>
+                  <li><a href="/country/IR">Iran, Islamic Republic of</a></li>
+                  <li><a href="/country/IQ">Iraq</a></li>
+                  <li><a href="/country/IE">Ireland</a></li>
+                  <li><a href="/country/IM">Isle of Man</a></li>
+                  <li><a href="/country/IL">Israel</a></li>
+                  <li><a href="/country/IT">Italy</a></li>
+                  <li><a href="/country/JM">Jamaica</a></li>
+                  <li><a href="/country/JP">Japan</a></li>
+                  <li><a href="/country/JE">Jersey</a></li>
+                  <li><a href="/country/JO">Jordan</a></li>
+                  <li><a href="/country/KZ">Kazakhstan</a></li>
+                  <li><a href="/country/KE">Kenya</a></li>
+                  <li><a href="/country/KI">Kiribati</a></li>
+                  <li><a href="/country/KP">Korea, Democratic People's Republic of</a></li>
+                  <li><a href="/country/KR">Korea, Republic of</a></li>
+                  <li><a href="/country/KW">Kuwait</a></li>
+                  <li><a href="/country/KG">Kyrgyzstan</a></li>
+                  <li><a href="/country/LA">Lao People's Democratic Republic</a></li>
+                  <li><a href="/country/LV">Latvia</a></li>
+                  <li><a href="/country/LB">Lebanon</a></li>
+                  <li><a href="/country/LS">Lesotho</a></li>
+                  <li><a href="/country/LR">Liberia</a></li>
+                  <li><a href="/country/LY">Libya</a></li>
+                  <li><a href="/country/LI">Liechtenstein</a></li>
+                  <li><a href="/country/LT">Lithuania</a></li>
+                  <li><a href="/country/LU">Luxembourg</a></li>
+                  <li><a href="/country/MO">Macao</a></li>
+                  <li><a href="/country/MK">Macedonia, the Former Yugoslav Republic of</a></li>
+                  <li><a href="/country/MG">Madagascar</a></li>
+                  <li><a href="/country/MW">Malawi</a></li>
+                  <li><a href="/country/MY">Malaysia</a></li>
+                  <li><a href="/country/MV">Maldives</a></li>
+                  <li><a href="/country/ML">Mali</a></li>
+                  <li><a href="/country/MT">Malta</a></li>
+                  <li><a href="/country/MH">Marshall Islands</a></li>
+                  <li><a href="/country/MQ">Martinique</a></li>
+                  <li><a href="/country/MR">Mauritania</a></li>
+                  <li><a href="/country/MU">Mauritius</a></li>
+                  <li><a href="/country/YT">Mayotte</a></li>
+                  <li><a href="/country/MX">Mexico</a></li>
+                  <li><a href="/country/FM">Micronesia, Federated States of</a></li>
+                  <li><a href="/country/MD">Moldova, Republic of</a></li>
+                  <li><a href="/country/MC">Monaco</a></li>
+                  <li><a href="/country/MN">Mongolia</a></li>
+                  <li><a href="/country/ME">Montenegro</a></li>
+                  <li><a href="/country/MS">Montserrat</a></li>
+                  <li><a href="/country/MA">Morocco</a></li>
+                  <li><a href="/country/MZ">Mozambique</a></li>
+                  <li><a href="/country/MM">Myanmar</a></li>
+                  <li><a href="/country/NA">Namibia</a></li>
+                  <li><a href="/country/NR">Nauru</a></li>
+                  <li><a href="/country/NP">Nepal</a></li>
+                  <li><a href="/country/NL">Netherlands</a></li>
+                  <li><a href="/country/NC">New Caledonia</a></li>
+                  <li><a href="/country/NZ">New Zealand</a></li>
+                  <li><a href="/country/NI">Nicaragua</a></li>
+                  <li><a href="/country/NE">Niger</a></li>
+                  <li><a href="/country/NG">Nigeria</a></li>
+                  <li><a href="/country/NU">Niue</a></li>
+                  <li><a href="/country/NF">Norfolk Island</a></li>
+                  <li><a href="/country/MP">Northern Mariana Islands</a></li>
+                  <li><a href="/country/NO">Norway</a></li>
+                  <li><a href="/country/OM">Oman</a></li>
+                  <li><a href="/country/PK">Pakistan</a></li>
+                  <li><a href="/country/PW">Palau</a></li>
+                  <li><a href="/country/PS">Palestine, State of</a></li>
+                  <li><a href="/country/PA">Panama</a></li>
+                  <li><a href="/country/PG">Papua New Guinea</a></li>
+                  <li><a href="/country/PY">Paraguay</a></li>
+                  <li><a href="/country/PE">Peru</a></li>
+                  <li><a href="/country/PH">Philippines</a></li>
+                  <li><a href="/country/PN">Pitcairn</a></li>
+                  <li><a href="/country/PL">Poland</a></li>
+                  <li><a href="/country/PT">Portugal</a></li>
+                  <li><a href="/country/PR">Puerto Rico</a></li>
+                  <li><a href="/country/QA">Qatar</a></li>
+                  <li><a href="/country/RE">Réunion</a></li>
+                  <li><a href="/country/RO">Romania</a></li>
+                  <li><a href="/country/RU">Russian Federation</a></li>
+                  <li><a href="/country/RW">Rwanda</a></li>
+                  <li><a href="/country/BL">Saint Barthélemy</a></li>
+                  <li><a href="/country/SH">Saint Helena, Ascension and Tristan da Cunha</a></li>
+                  <li><a href="/country/KN">Saint Kitts and Nevis</a></li>
+                  <li><a href="/country/LC">Saint Lucia</a></li>
+                  <li><a href="/country/MF">Saint Martin (French part)</a></li>
+                  <li><a href="/country/PM">Saint Pierre and Miquelon</a></li>
+                  <li><a href="/country/VC">Saint Vincent and the Grenadines</a></li>
+                  <li><a href="/country/WS">Samoa</a></li>
+                  <li><a href="/country/SM">San Marino</a></li>
+                  <li><a href="/country/ST">Sao Tome and Principe</a></li>
+                  <li><a href="/country/SA">Saudi Arabia</a></li>
+                  <li><a href="/country/SN">Senegal</a></li>
+                  <li><a href="/country/RS">Serbia</a></li>
+                  <li><a href="/country/SC">Seychelles</a></li>
+                  <li><a href="/country/SL">Sierra Leone</a></li>
+                  <li><a href="/country/SG">Singapore</a></li>
+                  <li><a href="/country/SX">Sint Maarten (Dutch part)</a></li>
+                  <li><a href="/country/SK">Slovakia</a></li>
+                  <li><a href="/country/SI">Slovenia</a></li>
+                  <li><a href="/country/SB">Solomon Islands</a></li>
+                  <li><a href="/country/SO">Somalia</a></li>
+                  <li><a href="/country/ZA">South Africa</a></li>
+                  <li><a href="/country/GS">South Georgia and the South Sandwich Islands</a></li>
+                  <li><a href="/country/SS">South Sudan</a></li>
+                  <li><a href="/country/ES">Spain</a></li>
+                  <li><a href="/country/LK">Sri Lanka</a></li>
+                  <li><a href="/country/SD">Sudan</a></li>
+                  <li><a href="/country/SR">Suriname</a></li>
+                  <li><a href="/country/SJ">Svalbard and Jan Mayen</a></li>
+                  <li><a href="/country/SZ">Swaziland</a></li>
+                  <li><a href="/country/SE">Sweden</a></li>
+                  <li><a href="/country/CH">Switzerland</a></li>
+                  <li><a href="/country/SY">Syrian Arab Republic</a></li>
+                  <li><a href="/country/TW">Taiwan, Province of China</a></li>
+                  <li><a href="/country/TJ">Tajikistan</a></li>
+                  <li><a href="/country/TZ">Tanzania, United Republic of</a></li>
+                  <li><a href="/country/TH">Thailand</a></li>
+                  <li><a href="/country/TL">Timor-Leste</a></li>
+                  <li><a href="/country/TG">Togo</a></li>
+                  <li><a href="/country/TK">Tokelau</a></li>
+                  <li><a href="/country/TO">Tonga</a></li>
+                  <li><a href="/country/TT">Trinidad and Tobago</a></li>
+                  <li><a href="/country/TN">Tunisia</a></li>
+                  <li><a href="/country/TR">Turkey</a></li>
+                  <li><a href="/country/TM">Turkmenistan</a></li>
+                  <li><a href="/country/TC">Turks and Caicos Islands</a></li>
+                  <li><a href="/country/TV">Tuvalu</a></li>
+                  <li><a href="/country/UG">Uganda</a></li>
+                  <li><a href="/country/UA">Ukraine</a></li>
+                  <li><a href="/country/AE">United Arab Emirates</a></li>
+                  <li><a href="/country/GB">United Kingdom</a></li>
+                  <li><a href="/country/US">United States</a></li>
+                  <li><a href="/country/UM">United States Minor Outlying Islands</a></li>
+                  <li><a href="/country/UY">Uruguay</a></li>
+                  <li><a href="/country/UZ">Uzbekistan</a></li>
+                  <li><a href="/country/VU">Vanuatu</a></li>
+                  <li><a href="/country/VE">Venezuela, Bolivarian Republic of</a></li>
+                  <li><a href="/country/VN">Viet Nam</a></li>
+                  <li><a href="/country/VG">Virgin Islands, British</a></li>
+                  <li><a href="/country/VI">Virgin Islands, U.S.</a></li>
+                  <li><a href="/country/WF">Wallis and Futuna</a></li>
+                  <li><a href="/country/EH">Western Sahara</a></li>
+                  <li><a href="/country/YE">Yemen</a></li>
+                  <li><a href="/country/ZM">Zambia</a></li>
+                  <li><a href="/country/ZW">Zimbabwe</a></li>
+                </ul>
+        </div>       
+        </br> 
         {{ pagination.links }}
       <div class="table-responsive">          
         <table class="table table-hover table-striped table-fixed">
           <thead>
             <tr>
+              <th>#</th>
               <th>Global Ranking</th>
               <th>Ranking</th>
               <th>User Name</th>
@@ -32,6 +301,7 @@
           <tbody>
             {% for user in users %}
             <tr>
+              <td>{{ loop.index + pagination.skip }}</td>
               <td>{{ user.global_ranking }}</td>
               <td>{{ user.ranking }}</td>
               <td><a href="https://leetcode.com/{{ user.user_name }}">{{ user.user_name }}</a></td>
@@ -44,5 +314,16 @@
       </div>
       {{ pagination.links }}
     </div>
+
+    <script>
+            $(document).ready(function(){
+              $("#countryInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".dropdown-menu li").filter(function() {
+                  $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+              });
+            });
+            </script>    
   </body>
 </html>

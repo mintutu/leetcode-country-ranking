@@ -1,10 +1,11 @@
 import pymongo
+import datetime
 import os
 from pymongo import IndexModel, ASCENDING, DESCENDING
 from app.leetcode_user import User
 
 mongo_url = os.environ["MONGODB_URI"]
-mongo_db_name = os.environ["MONGODB_NAME"]
+mongo_db_name = os.getenv("MONGODB_NAME", "LEECODE_DB")
 #Local "mongodb://root:example@localhost:27017/"
 myclient = pymongo.MongoClient(mongo_url)
 mydb = myclient[mongo_db_name]
@@ -72,3 +73,23 @@ def get_total_users_count():
         return total
     except Exception as e:
         print(e)
+
+def store_last_update(curr_page):
+    try:
+        date_time_now = datetime.datetime.now()
+        date_time_now_str = date_time_now.strftime("%d/%m/%Y %H:%M:%S")
+        mydb.updated_user_info.update({"id":1}, {"id":1, "last_update_time": date_time_now_str, "last_page": curr_page}, upsert=True)
+    except Exception as e:
+        print(e)
+
+def get_last_update():
+    try:        
+        date_time_now = datetime.datetime.now()
+        date_time_now_str = date_time_now.strftime("%d/%m/%Y %H:%M:%S")
+        rows = mydb.updated_user_info.find({"id": 1})
+        for row in rows:
+            return {"last_update_time": row["last_update_time"], "last_page": row["last_page"]}    
+        return {"last_update_time":date_time_now_str, "last_page": 1}    
+    except Exception as e:
+        print(e)
+        return {"last_update_time":date_time_now_str, "last_page": 1}    

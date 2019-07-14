@@ -6,13 +6,17 @@ import requests
 import os
 import json
 import time
+import datetime
 from . import db_mongo
 from app.leetcode_user import User
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
-MAX_PAGE = 4000
+
+MAX_PAGE = os.getenv("MAX_PAGE_LEET_CODE", 15)
+ENABLED_SCANNER = os.getenv("ENABLED_SCANNER", "True")
 
 def craw_leetcode(page):
+	users = list()
 	try:
 		data = {"query": "{  globalRanking(page: "+ str(page)  +") {    totalUsers,    userPerPage,    myRank {      ranking,      currentGlobalRanking,      currentRating,      dataRegion,      __typename,    },    rankingNodes {      ranking,      currentRating,      currentGlobalRanking,      dataRegion,      user {        username,      profile {          userSlug,          userAvatar,          countryCode,          countryName,          realName,          __typename,        },        __typename      },      __typename,    },    __typename  }}"}
 		result = requests.post("https://leetcode.com/graphql",
@@ -26,8 +30,7 @@ def craw_leetcode(page):
 			"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"    
 		})
 		json_result = json.loads(result.text)
-		rankingNodes = json_result['data']['globalRanking']['rankingNodes']
-		users = []
+		rankingNodes = json_result['data']['globalRanking']['rankingNodes']		
 		for node in rankingNodes:
 			global_ranking = node["currentGlobalRanking"]
 			currrent_ranking = node["currentRating"]
@@ -38,25 +41,34 @@ def craw_leetcode(page):
 			country_name = user_profile['countryName']			
 			user = User(global_ranking, currrent_ranking, user_name, real_name, country_code, country_name, page)
 			users.append(user)
-		return users
 	except Exception as e:
 		print(e)
-		return None
+	finally:
+		return users
 
-def scan_ranking():	
-	for i in range(1,MAX_PAGE):
+def scan_ranking(last_page):	
+	for i in range(last_page, MAX_PAGE):
 		users = craw_leetcode(i)
-		db_mongo.delete_users_by_page(i)
-		result = db_mongo.insert_users(users)
-		print ("Inserted to DB page " + str(i))
-		time.sleep(3)
+		if (len(users) > 0):
+			db_mongo.delete_users_by_page(i)
+			result = db_mongo.insert_users(users)
+			db_mongo.store_last_update(i)
+			print ("Inserted to DB page " + str(i))
+			time.sleep(3)
 
 def start_scan():
 	while True:
-		print('Start scan leetcode ranking')
-		db_mongo.create_indexes()
-		scan_ranking()
-		print('Finish scan leetcode ranking')
+		if ENABLED_SCANNER == 'True':		
+			db_mongo.create_indexes()
+			last_updated_info = db_mongo.get_last_update()
+			last_page = last_updated_info["last_page"]
+			last_updated_time = datetime.datetime.strptime(last_updated_info["last_update_time"], "%d/%m/%Y %H:%M:%S")		
+			diff_date_time = datetime.datetime.now() - last_updated_time
+			if (diff_date_time.days >= 1):
+				last_page = 1
+			print('Start scan leetcode ranking from page ' + str(last_page))
+			scan_ranking(last_page)
+			print('Finish scan leetcode ranking')
 		#Rescan every day
 		time.sleep(60 * 60 * 24)
 
