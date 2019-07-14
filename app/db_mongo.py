@@ -60,6 +60,18 @@ def get_users_by_country(country_code, page_size, page_num):
     except Exception as e:
         print(e)
 
+def get_users_by_name(user_name, page_size, page_num):
+    try:
+        res = []
+        query = {"$or": [{"user_name": {"$regex": user_name}},{"real_name": {"$regex": user_name}}]}
+        cursor = mydb.users.find(query).sort("global_ranking").skip(page_num).limit(page_size)
+        users = [x for x in cursor]
+        for user in users:
+            res.append(User(user['global_ranking'], user['ranking'], user['user_name'], user['real_name'], user['country_code'], user['country_name'], user['page']))
+        return res
+    except Exception as e:
+        print(e)        
+
 def get_total_users_count_by_country(country_code):
     try:
         total = mydb.users.find({"country_code": country_code}).count()

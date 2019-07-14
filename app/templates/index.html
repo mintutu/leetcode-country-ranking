@@ -283,7 +283,11 @@
                   <li><a href="/country/ZM">Zambia</a></li>
                   <li><a href="/country/ZW">Zimbabwe</a></li>
                 </ul>
-        </div>       
+        </div>
+        </br> 
+        <form action="{{ url_for('search_by_user') }}" method="POST">
+                <input id="userSearch" name="user-search" class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </form>              
         </br> 
         {{ pagination.links }}
       <div class="table-responsive">          
@@ -306,7 +310,13 @@
               <td>{{ user.ranking }}</td>
               <td><a href="https://leetcode.com/{{ user.user_name }}">{{ user.user_name }}</a></td>
               <td>{{ user.real_name }}</td>
-              <td>{{ user.country_name }}</td>
+              <td>
+                    {% if user.country_name != None %}
+                        <div>{{ user.country_name }}</div>
+                    {% else %}
+                    <div></div>
+                    {% endif %}
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -325,5 +335,13 @@
               });
             });
             </script>    
+            <script>
+                    document.getElementById('userSearch').addEventListener('keypress', function(event) {
+                        if (event.keyCode == 13) { 
+                            this.form.submit();                           
+                            event.preventDefault();
+                        }
+                    });
+                </script>
   </body>
 </html>

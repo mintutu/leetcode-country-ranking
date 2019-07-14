@@ -19,4 +19,6 @@ pip3 install -r requirements.txt
 
 #Step 3: Run heroku at local
 heroku local
+
+#Step 4: Test at http://localhost:5000/
 ```

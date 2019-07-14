@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request, redirect
 from flask_paginate import Pagination, get_page_args
 import threading
 import requests
@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
 
 MAX_PAGE = os.getenv("MAX_PAGE_LEET_CODE", 15)
-ENABLED_SCANNER = os.getenv("ENABLED_SCANNER", "True")
+SCANNER_ENABLED = os.getenv("SCANNER_ENABLED", "True")
 
 def craw_leetcode(page):
 	users = list()
@@ -58,7 +58,7 @@ def scan_ranking(last_page):
 
 def start_scan():
 	while True:
-		if ENABLED_SCANNER == 'True':		
+		if SCANNER_ENABLED == 'True':		
 			db_mongo.create_indexes()
 			last_updated_info = db_mongo.get_last_update()
 			last_page = last_updated_info["last_page"]
@@ -89,6 +89,19 @@ def search_by_country(country_name):
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
     return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination)
+
+@app.route('/user',methods = ['POST'])
+def search_by_user():
+    user_name = request.form.get("user-search")
+    if not user_name:
+        return redirect('/')
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')    
+    pagination_users = db_mongo.get_users_by_name(user_name, per_page, offset)
+    total = len(pagination_users)
+    pagination = Pagination(page=page, per_page=per_page, total=total,
+                            css_framework='bootstrap4')
+    return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination)
+
 
 @app.route('/favicon.ico')
 def favicon():
