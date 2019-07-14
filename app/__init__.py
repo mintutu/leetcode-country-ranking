@@ -1,14 +1,13 @@
 # -*- encoding: utf-8 -*-
 from flask import Flask, render_template, send_from_directory
 from flask_paginate import Pagination, get_page_args
-from datetime import datetime
 import threading
 import requests
 import os
-from urllib import parse
 import json
 import time
 from . import db_mongo
+from pymongo import IndexModel, ASCENDING, DESCENDING
 from app.leetcode_user import User
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
@@ -37,8 +36,8 @@ def craw_leetcode(page):
 			user_name = user_profile['userSlug']  
 			real_name = user_profile['realName']
 			country_code = user_profile['countryCode']
-			country_name = user_profile['countryName']
-			user = User(global_ranking, currrent_ranking, user_name, real_name, country_code, country_name)
+			country_name = user_profile['countryName']			
+			user = User(global_ranking, currrent_ranking, user_name, real_name, country_code, country_name, page)
 			users.append(user)
 		return users
 	except Exception as e:
@@ -48,6 +47,7 @@ def craw_leetcode(page):
 def scan_ranking():	
 	for i in range(1,MAX_PAGE):
 		users = craw_leetcode(i)
+		db_mongo.delete_users_by_page(i)
 		result = db_mongo.insert_users(users)
 		print (result)
 		time.sleep(3)
@@ -55,32 +55,11 @@ def scan_ranking():
 def start_scan():
 	while True:
 		print('Start scan leetcode ranking')
-		delay_scan = int(os.environ["DELAY_SCAN"])	#delay in minutes
+		db_mongo.create_indexes()
 		scan_ranking()
 		print('Finish scan leetcode ranking')
-		time.sleep(60 * delay_scan)
-
-@app.route('/home')
-def homepage():
-    last_rates_thb = db_postgre.getLatestRate('supperrich_exchange', 20)  
-    data_thb = []
-    for rate in last_rates_thb:
-    	row = []
-    	row.append(rate.cbuy)
-    	row.append(rate.csell)
-    	row.append(rate.dateTime)
-    	data_thb.append(row)
-
-    last_rates_vnd = db_postgre.getLatestRate('tygiado', 10)		
-    data_vnd = []
-    for rate in last_rates_vnd:
-    	row = []
-    	row.append(rate.cbuy)
-    	row.append(rate.csell)
-    	row.append(rate.dateTime)
-    	data_vnd.append(row)
-    one_baht_vnd = "%.2f" % (data_vnd[0][0] / data_thb[0][1])
-    return render_template('result.html', one_baht_vnd=one_baht_vnd, result_vnd=data_vnd, result_thb=data_thb)
+		#Rescan every day
+		time.sleep(60 * 60 * 24)
 
 @app.route('/')
 def index():
@@ -103,3 +82,6 @@ def search_by_country(country_name):
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+t1 = threading.Thread(target=start_scan)
+t1.start()
