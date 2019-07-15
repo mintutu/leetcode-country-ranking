@@ -5,7 +5,7 @@ from pymongo import IndexModel, ASCENDING, DESCENDING
 from app.leetcode_user import User
 
 mongo_url = os.environ["MONGODB_URI"]
-mongo_db_name = os.getenv("MONGODB_NAME", "heroku_sz7kmqc0")
+mongo_db_name = os.getenv("MONGODB_NAME", "LEET_CODE")
 #Local "mongodb://root:example@localhost:27017/"
 myclient = pymongo.MongoClient(mongo_url)
 mydb = myclient[mongo_db_name]

@@ -15,6 +15,8 @@ app.config.from_pyfile('app.cfg')
 MAX_PAGE = int(os.getenv("MAX_PAGE_LEET_CODE", "15"))
 SCANNER_ENABLED = os.getenv("SCANNER_ENABLED", "True")
 
+last_updated_format = None
+
 def craw_leetcode(page):
 	users = list()
 	try:
@@ -57,13 +59,17 @@ def scan_ranking(last_page):
 			time.sleep(3)
 
 def start_scan():
+	global last_updated_format
 	while True:
 		if SCANNER_ENABLED == 'True':		
 			db_mongo.create_indexes()
 			last_updated_info = db_mongo.get_last_update()
 			last_page = last_updated_info["last_page"]
-			last_updated_time = datetime.datetime.strptime(last_updated_info["last_update_time"], "%d/%m/%Y %H:%M:%S")		
-			diff_date_time = datetime.datetime.now() - last_updated_time
+			last_updated_str = last_updated_info["last_update_time"]
+			last_updated = datetime.datetime.strptime(last_updated_str, "%d/%m/%Y %H:%M:%S")		
+			last_updated_format = last_updated.strftime("%B %d, %Y")
+
+			diff_date_time = datetime.datetime.now() - last_updated
 			if (diff_date_time.days >= 1):
 				last_page = 1
 			print('Start scan leetcode ranking from page ' + str(last_page))
@@ -79,7 +85,7 @@ def index():
     pagination_users = db_mongo.get_users(per_page, offset)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination)
+    return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination,last_updated=last_updated_format)
 
 @app.route('/country/<country_name>')
 def search_by_country(country_name):
@@ -88,7 +94,7 @@ def search_by_country(country_name):
     pagination_users = db_mongo.get_users_by_country(country_name, per_page, offset)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination)
+    return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination,last_updated=last_updated_format)
 
 @app.route('/user',methods = ['POST'])
 def search_by_user():
@@ -100,7 +106,7 @@ def search_by_user():
     total = len(pagination_users)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='bootstrap4')
-    return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination)
+    return render_template('index.html',users=pagination_users,page=page,per_page=per_page,pagination=pagination,last_updated=last_updated_format)
 
 
 @app.route('/favicon.ico')
