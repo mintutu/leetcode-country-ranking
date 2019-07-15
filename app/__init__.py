@@ -13,7 +13,6 @@ app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
 
 MAX_PAGE = int(os.getenv("MAX_PAGE_LEET_CODE", "15"))
-SCANNER_ENABLED = os.getenv("SCANNER_ENABLED", "True")
 
 last_updated_format = None
 
@@ -61,6 +60,7 @@ def scan_ranking(last_page):
 def start_scan():
 	global last_updated_format
 	while True:
+		SCANNER_ENABLED = os.getenv("SCANNER_ENABLED", "True")
 		if SCANNER_ENABLED == 'True':		
 			db_mongo.create_indexes()
 			last_updated_info = db_mongo.get_last_update()
