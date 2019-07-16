@@ -1,8 +1,9 @@
+import logging
 import pymongo
 import datetime
 import os
-from pymongo import IndexModel, ASCENDING, DESCENDING
-from app.leetcode_user import User
+from pymongo import IndexModel
+from app.models.leetcode_user import User
 
 mongo_url = os.getenv("MONGODB_URI", "mongodb://root:example@localhost:27017/")
 mongo_db_name = os.getenv("MONGODB_NAME", "LEET_CODE")
@@ -21,7 +22,7 @@ def create_indexes():
             if (index + "_1") not in existed_indexes:
                 users_collection.create_index(index)
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def insert_users(users):
     try:
@@ -32,13 +33,13 @@ def insert_users(users):
             data.append(row)
         return users_collection.insert_many(data)
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def delete_users_by_page(page):
     try:
         return mydb.users.remove({"page": page})
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def get_users(page_size, page_num):
     try:
@@ -49,7 +50,7 @@ def get_users(page_size, page_num):
             res.append(User(user['global_ranking'], user['ranking'], user['user_name'], user['real_name'], user['country_code'], user['country_name'], user['page']))
         return res
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def get_users_by_country(country_code, page_size, page_num):
     try:
@@ -60,7 +61,7 @@ def get_users_by_country(country_code, page_size, page_num):
             res.append(User(user['global_ranking'], user['ranking'], user['user_name'], user['real_name'], user['country_code'], user['country_name'], user['page']))
         return res
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def get_users_by_name(user_name, page_size, page_num):
     try:
@@ -72,21 +73,21 @@ def get_users_by_name(user_name, page_size, page_num):
             res.append(User(user['global_ranking'], user['ranking'], user['user_name'], user['real_name'], user['country_code'], user['country_name'], user['page']))
         return res
     except Exception as e:
-        print(e)        
+        logging.error(e, exc_info=True)        
 
 def get_total_users_count_by_country(country_code):
     try:
         total = mydb.users.find({"country_code": country_code}).count()
         return total
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def get_total_users_count():
     try:
         total = mydb.users.count()
         return total
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def store_last_update(curr_page):
     try:
@@ -94,7 +95,7 @@ def store_last_update(curr_page):
         date_time_now_str = date_time_now.strftime("%d/%m/%Y %H:%M:%S")
         mydb.updated_user_info.update({"id":1}, {"id":1, "last_update_time": date_time_now_str, "last_page": curr_page}, upsert=True)
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
 
 def get_last_update():
     try:        
@@ -105,5 +106,5 @@ def get_last_update():
             return {"last_update_time": row["last_update_time"], "last_page": row["last_page"]}    
         return {"last_update_time":date_time_now_str, "last_page": 1}    
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
         return {"last_update_time":date_time_now_str, "last_page": 1}    

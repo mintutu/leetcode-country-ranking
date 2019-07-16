@@ -11,5 +11,6 @@ flask = "*"
 pymongo = "*"
 flask-paginate = "*"
 flask-compress = "*"
+flask-caching = "*"
 [requires]
 python_version = "3.7"
