@@ -4,9 +4,9 @@ import os
 from pymongo import IndexModel, ASCENDING, DESCENDING
 from app.leetcode_user import User
 
-mongo_url = os.environ["MONGODB_URI"]
+mongo_url = os.getenv("MONGODB_URI", "mongodb://root:example@localhost:27017/")
 mongo_db_name = os.getenv("MONGODB_NAME", "LEET_CODE")
-#Local "mongodb://root:example@localhost:27017/"
+
 myclient = pymongo.MongoClient(mongo_url)
 mydb = myclient[mongo_db_name]
 
