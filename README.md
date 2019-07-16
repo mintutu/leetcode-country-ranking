@@ -8,16 +8,15 @@ Try to find your place and others in your country at: https://leetcode-country-r
 
 ![Screenshot](https://i.ibb.co/RBd6z6x/Screen-Shot-2019-07-14-at-22-29-29.png)
 
-### Usage at Local
-In case, you want to build your own crawler. Run these steps at your local machine:
+I'm not good at frontend web development, so it would be great if you could help me to improve.
+
+### Development at Local
+In case, you want to build your own website. Run these steps at your local machine:
 ```
 #Step 1: Run docker for the environment
 docker-compose up -d
 
-#Step 2: Set up the environment variables
-export MONGODB_URI="mongodb://root:example@localhost:27017/"
-
-#Step 3: Download dependencies
+#Step 2: Download dependencies
 pip3 install -r requirements.txt
 
 #Step 3: Run heroku at local
@@ -25,3 +24,4 @@ heroku local
 
 #Step 4: Test at http://localhost:5000/
 ```
+
