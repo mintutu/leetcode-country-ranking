@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 from flask import Flask, render_template, send_from_directory, request, redirect
 from flask_paginate import Pagination, get_page_args
+from flask_compress import Compress
 import threading
 import requests
 import os
@@ -11,7 +12,11 @@ from . import db_mongo
 from app.leetcode_user import User
 app = Flask(__name__)
 app.config.from_pyfile('app.cfg')
+Compress(app)
 
+COMPRESS_MIMETYPES = ['text/html', 'text/css', 'text/xml', 'application/json', 'application/javascript']
+COMPRESS_LEVEL = 6
+COMPRESS_MIN_SIZE = 500
 MAX_PAGE = int(os.getenv("MAX_PAGE_LEET_CODE", "15"))
 
 last_updated_format = None
@@ -121,8 +126,8 @@ def ping():
 	except Exception as e:
 		print(e)
 
-t1 = threading.Thread(target=start_scan)
-t1.start()
+# t1 = threading.Thread(target=start_scan)
+# t1.start()
 
-t2 = threading.Thread(target=ping)
-t2.start()
+# t2 = threading.Thread(target=ping)
+# t2.start()
