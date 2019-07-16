@@ -66,7 +66,7 @@ def start_scan():
             last_page = last_updated_info["last_page"]
             last_updated_str = last_updated_info["last_update_time"]
             last_updated = datetime.datetime.strptime(last_updated_str, "%d/%m/%Y %H:%M:%S")
-            cache.set('last_updated_format', last_updated.strftime("%B %d, %Y"))
+            cache.set('last_updated_format', last_updated.strftime("%B %d, %Y"), timeout=60 * 60 * 24)
 
             diff_date_time = datetime.datetime.now() - last_updated
             if diff_date_time.days >= 1:
