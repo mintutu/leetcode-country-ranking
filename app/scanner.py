@@ -73,6 +73,7 @@ def start_scan():
                 last_page = 1
             print('Start scan leetcode ranking from page ' + str(last_page))
             scan_ranking(last_page)
+            cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)
             print('Finish scan leetcode ranking')
         # Rescan every day
         time.sleep(60 * 60 * 24)
