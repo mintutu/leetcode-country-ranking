@@ -1,5 +1,5 @@
 class User:
-    def __init__(self, global_ranking, ranking, user_name, real_name, country_code, country_name, page):
+    def __init__(self, global_ranking, ranking, user_name, real_name, country_code, country_name, page, data_region="US"):
         self.global_ranking = global_ranking
         self.ranking = ranking
         self.user_name = user_name
@@ -7,6 +7,7 @@ class User:
         self.country_code = country_code
         self.country_name = country_name
         self.page = page
+        self.data_region = data_region
 
     def __str__(self):
         return "Global Ranking: {}\t UserName: {}\t realName: {}\t countryCode: {}\t countryName: {}".format(

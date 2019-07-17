@@ -32,7 +32,7 @@ def insert_users(users):
         for user in users:
             row = {"global_ranking": user.global_ranking, "ranking": user.ranking, "user_name": user.user_name,
                    "real_name": user.real_name, "country_code": user.country_code, "country_name": user.country_name,
-                   "page": user.page}
+                   "page": user.page, "data_region": user.data_region}
             data.append(row)
         return users_collection.insert_many(data)
     except Exception as e:
@@ -47,43 +47,46 @@ def delete_users_by_page(page):
 
 
 def get_users(page_size, page_num):
+    res = []
     try:
-        res = []
         cursor = mydb.users.find().sort("global_ranking").skip(page_num).limit(page_size)
         users = [x for x in cursor]
         for user in users:
             res.append(User(user['global_ranking'], user['ranking'], user['user_name'], user['real_name'],
-                            user['country_code'], user['country_name'], user['page']))
-        return res
+                            user['country_code'], user['country_name'], user['page'], user['data_region']))        
     except Exception as e:
         logging.error(e, exc_info=True)
+    finally:
+        return res
 
 
 def get_users_by_country(country_code, page_size, page_num):
-    try:
-        res = []
+    res = []
+    try:        
         cursor = mydb.users.find({"country_code": country_code}).sort("global_ranking").skip(page_num).limit(page_size)
         users = [x for x in cursor]
         for user in users:
             res.append(User(user['global_ranking'], user['ranking'], user['user_name'], user['real_name'],
-                            user['country_code'], user['country_name'], user['page']))
-        return res
+                            user['country_code'], user['country_name'], user['page'], user['data_region']))
     except Exception as e:
         logging.error(e, exc_info=True)
+    finally:
+        return res
 
 
 def get_users_by_name(user_name, page_size, page_num):
+    res = []    
     try:
-        res = []
         query = {"$or": [{"user_name": {"$regex": user_name}}, {"real_name": {"$regex": user_name}}]}
         cursor = mydb.users.find(query).sort("global_ranking").skip(page_num).limit(page_size)
         users = [x for x in cursor]
         for user in users:
             res.append(User(user['global_ranking'], user['ranking'], user['user_name'], user['real_name'],
-                            user['country_code'], user['country_name'], user['page']))
-        return res
+                            user['country_code'], user['country_name'], user['page'], user['data_region']))
     except Exception as e:
         logging.error(e, exc_info=True)
+    finally:
+        return res
 
 
 def get_total_users_count_by_country(country_code):

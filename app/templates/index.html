@@ -240,7 +240,13 @@
                 <td>{{ loop.index + pagination.skip }}</td>
                 <td>{{ user.global_ranking }}</td>
                 <td>{{ user.ranking }}</td>
-                <td><a href="https://leetcode.com/{{ user.user_name }}">{{ user.user_name }}</a></td>
+                <td>
+                    {% if user.data_region == "US" %}
+                    <a href="https://leetcode.com/{{ user.user_name }}">{{ user.user_name }}</a>
+                    {% else %}
+                    <a href="https://leetcode-cn.com/u/{{ user.user_name }}">{{ user.user_name }}</a>
+                    {% endif %}                    
+                </td>
                 <td>{{ user.real_name }}</td>
                 <td>
                     {% if user.country_name != None %}
