@@ -1,8 +1,8 @@
 # LeetCode Ranking
-Crawling LeetCode Global Ranking and Building a website to support search/find by country and username.
+Crawling LeetCode Global Ranking and building a website to support to find the LeetCode ranking by country and username.
 
 ## Getting Started
-Because LeetCode does not support to filter the ranking by country, so I write some Python scripts to craw global ranking data in LeetCode. It helps to search, filter by user name or countries.
+Because LeetCode does not support to filter the ranking by country, so I've written some Python scripts to crawl global ranking data in LeetCode. It helps to search, filter by user name or countries.
 
 Try to find your place and others in your country at: https://leetcode-country-ranking.herokuapp.com/
 
@@ -24,4 +24,5 @@ heroku local
 
 #Step 4: Test at http://localhost:5000/
 ```
-
+### TODO
+- Crawling LeetCode weekly contests
