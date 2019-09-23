@@ -31,14 +31,14 @@ def craw_leetcode(page):
         rankingNodes = json_result['data']['globalRanking']['rankingNodes']
         for node in rankingNodes:
             global_ranking = node["currentGlobalRanking"]
-            currrent_ranking = node["currentRating"]
+            currrent_rating = node["currentRating"]
             data_region = node["dataRegion"]
             user_profile = node['user']['profile']
             user_name = user_profile['userSlug']
             real_name = user_profile['realName']
             country_code = user_profile['countryCode']
             country_name = user_profile['countryName']
-            user = User(global_ranking, currrent_ranking, user_name, real_name, country_code, country_name, page, data_region)
+            user = User(global_ranking, currrent_rating, user_name, real_name, country_code, country_name, page, data_region)
             users.append(user)
     except Exception as e:
         logging.error(e, exc_info=True)

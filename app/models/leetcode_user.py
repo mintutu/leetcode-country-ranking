@@ -1,7 +1,7 @@
 class User:
-    def __init__(self, global_ranking, ranking, user_name, real_name, country_code, country_name, page, data_region="US"):
+    def __init__(self, global_ranking, rating, user_name, real_name, country_code, country_name, page, data_region="US"):
         self.global_ranking = global_ranking
-        self.ranking = ranking
+        self.rating = rating
         self.user_name = user_name
         self.real_name = real_name
         self.country_code = country_code
