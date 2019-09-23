@@ -30,7 +30,7 @@ def insert_users(users):
         users_collection = mydb.users
         data = []
         for user in users:
-            row = {"global_ranking": user.global_ranking, "ranking": user.ranking, "user_name": user.user_name,
+            row = {"global_ranking": user.global_ranking, "ranking": user.rating, "user_name": user.user_name,
                    "real_name": user.real_name, "country_code": user.country_code, "country_name": user.country_name,
                    "page": user.page, "data_region": user.data_region}
             data.append(row)
