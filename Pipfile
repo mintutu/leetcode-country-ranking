@@ -3,14 +3,16 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [packages]
-django = "*"
 gunicorn = "*"
-django-heroku = "*"
 requests = "*"
 flask = "*"
 pymongo = "*"
 flask-paginate = "*"
 flask-compress = "*"
 flask-caching = "*"
+
 [requires]
 python_version = "3.7"
+
+[dev-packages]
+pylint = "*"

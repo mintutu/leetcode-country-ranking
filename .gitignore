@@ -90,3 +90,5 @@ ENV/
 .idea
 .vscode/
 test_crawl.py
+
+.history/
