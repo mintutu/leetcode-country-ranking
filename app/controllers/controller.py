@@ -50,3 +50,9 @@ def search_by_user():
 def favicon():
     return send_from_directory(os.path.join(os.path.curdir, 'static'), 'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
+
+@app_ctr.context_processor
+def my_utility_processor():
+    def format_rate(rate):
+        return format(float(rate), '.2f')
+    return dict(format_rate=format_rate)

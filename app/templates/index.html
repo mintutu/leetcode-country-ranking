@@ -241,7 +241,7 @@
             <tr>
                 <td>{{ loop.index + pagination.skip }}</td>
                 <td>{{ user.global_ranking }}</td>
-                <td>{{ user.rating }}</td>
+                <td>{{ format_rate(user.rating)}}</td>
                 <td>
                     {% if user.data_region == "US" %}
                     <a href="https://leetcode.com/{{ user.user_name }}">{{ user.user_name }}</a>
