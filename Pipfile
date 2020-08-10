@@ -10,6 +10,7 @@ pymongo = "*"
 flask-paginate = "*"
 flask-compress = "*"
 flask-caching = "*"
+scout-apm = "*"
 
 [requires]
 python_version = "3.7"
