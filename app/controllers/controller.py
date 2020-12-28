@@ -46,11 +46,6 @@ def search_by_user():
                            last_updated=last_updated_format)
 
 
-@app_ctr.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(os.path.curdir, 'static'), 'favicon.ico',
-                               mimetype='image/vnd.microsoft.icon')
-
 @app_ctr.context_processor
 def my_utility_processor():
     def format_rate(rate):

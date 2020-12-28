@@ -9,7 +9,7 @@ COMPRESS_MIMETYPES = ['text/html', 'text/css', 'text/xml', 'application/json', '
 COMPRESS_LEVEL = 6
 COMPRESS_MIN_SIZE = 500
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='')
 app.config.from_pyfile('app.cfg')
 cache.init_app(app)
 app.register_blueprint(app_ctr)
