@@ -26,6 +26,3 @@ heroku local
 ```
 ### TODO
 - Crawling LeetCode weekly contests
-
-## Job Referral
-[My company is hiring](https://careers.shopee.sg/). [Contact me for referral](mailto:nguyentunglam.ca@gmail.com)
