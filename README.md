@@ -4,7 +4,7 @@ Crawling LeetCode Global Ranking and building a website to support to find the L
 ## Getting Started
 Because LeetCode does not support to filter the ranking by country, so I've written some Python scripts to crawl global ranking data in LeetCode. It helps to search, filter by user name or countries.
 
-Try to find your place and others in your country at: https://leetcode-country-ranking.herokuapp.com/
+Try to find your place and others in your country at: https://leetcode-country-ranking.onrender.com/
 
 ![Screenshot](https://i.ibb.co/RBd6z6x/Screen-Shot-2019-07-14-at-22-29-29.png)
 
@@ -20,9 +20,12 @@ docker-compose up -d
 pip3 install -r requirements.txt
 
 #Step 3: Run heroku at local
-heroku local
+flask run
 
 #Step 4: Test at http://localhost:5000/
 ```
 ### TODO
 - Crawling LeetCode weekly contests
+
+### Jan 2023
+Since Heroku stopped free dynos, I use [render](https://render.com/) instead.
