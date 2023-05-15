@@ -46,23 +46,25 @@ def craw_leetcode(page):
         return users
 
 
-def scan_ranking(last_page):
+def scan_ranking(mongo_db, last_page):
     MAX_PAGE = int(os.getenv("MAX_PAGE_LEET_CODE", "15"))
     for i in range(last_page, MAX_PAGE):
         users = craw_leetcode(i)
         if len(users) > 0:
-            db_mongo.delete_users_by_page(i)
-            db_mongo.insert_users(users)
-            db_mongo.store_last_update(i)
+            db_mongo.delete_users_by_page(mongo_db, i)
+            db_mongo.insert_users(mongo_db, users)
+            db_mongo.store_last_update(mongo_db, i)
             print("Inserted to DB page " + str(i))
             time.sleep(3)
 
 
-def start_scan():
+def start_scan():    
     while True:
         scanner_enabled = os.getenv("SCANNER_ENABLED", "True")
         if scanner_enabled == 'True':
-            last_updated_info = db_mongo.get_last_update()
+            mongo_client = db_mongo.get_mongo_client()
+            mongo_db = db_mongo.get_mongo_db(mongo_client)
+            last_updated_info = db_mongo.get_last_update(mongo_db)
             last_page = last_updated_info["last_page"]
             last_updated_str = last_updated_info["last_update_time"]
             last_updated = datetime.datetime.strptime(last_updated_str, "%d/%m/%Y %H:%M:%S")
@@ -72,15 +74,16 @@ def start_scan():
             if diff_date_time.days >= 1:
                 last_page = 1
             print('Start scan leetcode ranking from page ' + str(last_page))
-            scan_ranking(last_page)
+            scan_ranking(mongo_db, last_page)
             cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)            
             print('Finish scan leetcode ranking')
-            db_mongo.rebuild_indexes()
+            db_mongo.rebuild_indexes(mongo_db)
             print('Complete rebuild index')
+            mongo_client.close()
         # Rescan every day
         time.sleep(60 * 60 * 24)
 
 
-def run():
+def run():    
     t1 = threading.Thread(target=start_scan)
     t1.start()

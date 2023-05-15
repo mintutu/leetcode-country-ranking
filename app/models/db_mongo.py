@@ -10,10 +10,16 @@ mongo_db_name = os.getenv("MONGODB_NAME2", "LEET_CODE")
 myclient = pymongo.MongoClient(mongo_url, connect=False)
 mydb = myclient[mongo_db_name]
 
+def get_mongo_client():
+    client = pymongo.MongoClient(mongo_url, connect=False)
+    return client
 
-def rebuild_indexes():
+def get_mongo_db(client):
+    return client[mongo_db_name]
+
+def rebuild_indexes(mongo_db):
     try:
-        users_collection = mydb.users
+        users_collection = mongo_db.users
         user_indexes = ['country_code', 'user_name', 'real_name']
         existed_indexes = list(map(lambda x: x['name'], users_collection.list_indexes()))
         # Don't use reindex:
@@ -32,9 +38,9 @@ def rebuild_indexes():
         logging.error(e, exc_info=True)
 
 
-def insert_users(users):
+def insert_users(mongo_db, users):
     try:
-        users_collection = mydb.users
+        users_collection = mongo_db.users
         data = []
         for user in users:
             row = {"global_ranking": user.global_ranking, "ranking": user.rating, "user_name": user.user_name,
@@ -46,9 +52,9 @@ def insert_users(users):
         logging.error(e, exc_info=True)
 
 
-def delete_users_by_page(page):
+def delete_users_by_page(mongo_db, page):
     try:
-        return mydb.users.remove({"page": page})
+        return mongo_db.users.remove({"page": page})
     except Exception as e:
         logging.error(e, exc_info=True)
 
@@ -112,22 +118,22 @@ def get_total_users_count():
         logging.error(e, exc_info=True)
 
 
-def store_last_update(curr_page):
+def store_last_update(mongo_db, curr_page):
     try:
         date_time_now = datetime.datetime.now()
         date_time_now_str = date_time_now.strftime("%d/%m/%Y %H:%M:%S")
-        mydb.updated_user_info.update({"id": 1},
+        mongo_db.updated_user_info.update({"id": 1},
                                       {"id": 1, "last_update_time": date_time_now_str, "last_page": curr_page},
                                       upsert=True)
     except Exception as e:
         logging.error(e, exc_info=True)
 
 
-def get_last_update():
+def get_last_update(mongo_client):
     try:
         date_time_now = datetime.datetime.now()
         date_time_now_str = date_time_now.strftime("%d/%m/%Y %H:%M:%S")
-        rows = mydb.updated_user_info.find({"id": 1})
+        rows = mongo_client.updated_user_info.find({"id": 1})
         for row in rows:
             return {"last_update_time": row["last_update_time"], "last_page": row["last_page"]}
         return {"last_update_time": date_time_now_str, "last_page": 1}
