@@ -19,7 +19,7 @@ docker-compose up -d
 #Step 2: Download dependencies
 pip3 install -r requirements.txt
 
-#Step 3: Run heroku at local
+#Step 3: Run at local
 flask run
 
 #Step 4: Test at http://localhost:5000/
