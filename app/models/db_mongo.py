@@ -7,7 +7,7 @@ from app.models.leetcode_user import User
 mongo_url = os.getenv("MONGODB_URI2", "mongodb://root:example@localhost:27017/")
 mongo_db_name = os.getenv("MONGODB_NAME2", "LEET_CODE")
 
-myclient = pymongo.MongoClient(mongo_url)
+myclient = pymongo.MongoClient(mongo_url, connect=False)
 mydb = myclient[mongo_db_name]
 
 
