@@ -62,7 +62,6 @@ def start_scan():
     while True:
         scanner_enabled = os.getenv("SCANNER_ENABLED", "True")
         if scanner_enabled == 'True':
-            db_mongo.create_indexes()
             last_updated_info = db_mongo.get_last_update()
             last_page = last_updated_info["last_page"]
             last_updated_str = last_updated_info["last_update_time"]
@@ -74,25 +73,14 @@ def start_scan():
                 last_page = 1
             print('Start scan leetcode ranking from page ' + str(last_page))
             scan_ranking(last_page)
-            cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)
+            cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)            
             print('Finish scan leetcode ranking')
+            db_mongo.rebuild_indexes()
+            print('Complete rebuild index')
         # Rescan every day
         time.sleep(60 * 60 * 24)
-
-
-# Try to ping website to avoid dyno sleeping in heroku
-def ping():
-    try:
-        while True:
-            time.sleep(60 * 15)
-            requests.get("https://leetcode-country-ranking.herokuapp.com/")
-    except Exception as e:
-        logging.error(e, exc_info=True)
 
 
 def run():
     t1 = threading.Thread(target=start_scan)
     t1.start()
-
-    t2 = threading.Thread(target=ping)
-    t2.start()
