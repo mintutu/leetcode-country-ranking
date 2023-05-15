@@ -83,7 +83,18 @@ def start_scan():
         # Rescan every day
         time.sleep(60 * 60 * 24)
 
+#Try to ping website to avoid instance sleeping
+def ping():
+	try:
+		while True:
+			time.sleep(60 * 15)
+			requests.get("https://leetcode-country-ranking.onrender.com/")	
+	except Exception as e:
+		logging.error(e, exc_info=True)
 
 def run():    
     t1 = threading.Thread(target=start_scan)
     t1.start()
+
+    t2 = threading.Thread(target=ping)
+    t2.start()
