@@ -14,7 +14,7 @@ mydb = myclient[mongo_db_name]
 def rebuild_indexes():
     try:
         users_collection = mydb.users
-        user_indexes = ['country_code_1', 'user_name_1', 'real_name_1']
+        user_indexes = ['country_code', 'user_name', 'real_name']
         existed_indexes = list(map(lambda x: x['name'], users_collection.list_indexes()))
         # Don't use reindex:
         # Starting in MongoDB 4.6, the reIndex command can only be run when connected to a standalone mongod.
@@ -22,11 +22,11 @@ def rebuild_indexes():
         # if len(existed_indexes) > len(indexes):
         #     users_collection.reindex()
         for index in existed_indexes:
-            # if (index + "_1") not in existed_indexes:                
-            #     users_collection.create_index(index)
-            # else:
-            if index in user_indexes:
-                users_collection.drop_index(index)
+            if index == '_id_':
+                continue            
+            users_collection.drop_index(index)
+            
+        for index in user_indexes:
             users_collection.create_index(index)
     except Exception as e:
         logging.error(e, exc_info=True)
