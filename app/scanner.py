@@ -64,16 +64,13 @@ def start_scan():
         if scanner_enabled == 'True':
             mongo_client = db_mongo.get_mongo_client()
             mongo_db = db_mongo.get_mongo_db(mongo_client)
-            last_updated_info = db_mongo.get_last_update(mongo_db)
-            last_page = last_updated_info["last_page"]
+            last_updated_info = db_mongo.get_last_update(mongo_db)            
             last_updated_str = last_updated_info["last_update_time"]
             last_updated = datetime.datetime.strptime(last_updated_str, "%d/%m/%Y %H:%M:%S")
             cache.set('last_updated_format', last_updated.strftime("%B %d, %Y"), timeout=60 * 60 * 24)
 
-            diff_date_time = datetime.datetime.now() - last_updated
-            if diff_date_time.days >= 1:
-                last_page = 1
-            print('Start scan leetcode ranking from page ' + str(last_page))
+            last_page = 1
+            print('Start scan leetcode ranking from page 1')
             scan_ranking(mongo_db, last_page)
             cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)            
             print('Finish scan leetcode ranking')
