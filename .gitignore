@@ -92,3 +92,5 @@ ENV/
 test_crawl.py
 
 .history/
+
+.DS_Store

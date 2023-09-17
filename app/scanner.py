@@ -55,7 +55,7 @@ def scan_ranking(mongo_db, last_page):
             db_mongo.insert_users(mongo_db, users)
             db_mongo.store_last_update(mongo_db, i)
             print("Inserted to DB page " + str(i))
-            time.sleep(3)
+            time.sleep(1)
 
 
 def start_scan():    
@@ -93,5 +93,5 @@ def run():
     t1 = threading.Thread(target=start_scan)
     t1.start()
 
-    t2 = threading.Thread(target=ping)
-    t2.start()
+    # t2 = threading.Thread(target=ping)
+    # t2.start()
