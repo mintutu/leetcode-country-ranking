@@ -54,7 +54,7 @@ def scan_ranking(mongo_db, last_page):
             db_mongo.delete_users_by_page(mongo_db, i)
             db_mongo.insert_users(mongo_db, users)
             db_mongo.store_last_update(mongo_db, i)
-            print("Inserted to DB page " + str(i))
+            logging.info("Inserted to DB page {}".format(i))
             time.sleep(1)
 
 
@@ -64,16 +64,18 @@ def start_scan():
         if scanner_enabled == 'True':
             mongo_client = db_mongo.get_mongo_client()
             mongo_db = db_mongo.get_mongo_db(mongo_client)
-            last_updated_info = db_mongo.get_last_update(mongo_db)            
+            last_updated_info = db_mongo.get_last_update(mongo_db)      
+            last_page = last_updated_info["last_page"]
+            logging.info('Last page was scanned {}'.format(last_page))
             last_updated_str = last_updated_info["last_update_time"]
             last_updated = datetime.datetime.strptime(last_updated_str, "%d/%m/%Y %H:%M:%S")
             cache.set('last_updated_format', last_updated.strftime("%B %d, %Y"), timeout=60 * 60 * 24)
 
             last_page = 1
-            print('Start scan leetcode ranking from page 1')
+            logging.info('Start scan leetcode ranking from page 1')
             scan_ranking(mongo_db, last_page)
             cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)            
-            print('Finish scan leetcode ranking')
+            logging.info('Finish scan leetcode ranking')
             db_mongo.rebuild_indexes(mongo_db)
             print('Complete rebuild index')
             mongo_client.close()
