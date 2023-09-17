@@ -10,7 +10,7 @@ from app.models.leetcode_user import User
 from app.models.cache import cache
 
 last_updated_format = None
-
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def craw_leetcode(page):
     users = list()
@@ -77,7 +77,7 @@ def start_scan():
             cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)            
             logging.info('Finish scan leetcode ranking')
             db_mongo.rebuild_indexes(mongo_db)
-            print('Complete rebuild index')
+            logging.info('Complete rebuild index')
             mongo_client.close()
         # Rescan every day
         time.sleep(60 * 60 * 24)
