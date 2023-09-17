@@ -48,7 +48,7 @@ def craw_leetcode(page):
 
 def scan_ranking(mongo_db, last_page):
     MAX_PAGE = int(os.getenv("MAX_PAGE_LEET_CODE", "15"))
-    for i in range(last_page, MAX_PAGE):
+    for i in range(last_page, MAX_PAGE+1):
         users = craw_leetcode(i)
         if len(users) > 0:
             db_mongo.delete_users_by_page(mongo_db, i)
@@ -66,13 +66,22 @@ def start_scan():
             mongo_db = db_mongo.get_mongo_db(mongo_client)
             last_updated_info = db_mongo.get_last_update(mongo_db)      
             last_page = last_updated_info["last_page"]
-            logging.info('Last page was scanned {}'.format(last_page))
             last_updated_str = last_updated_info["last_update_time"]
+            logging.info('Last page was scanned {} at {}'.format(last_page,last_updated_str))            
             last_updated = datetime.datetime.strptime(last_updated_str, "%d/%m/%Y %H:%M:%S")
             cache.set('last_updated_format', last_updated.strftime("%B %d, %Y"), timeout=60 * 60 * 24)
+            
+            diff_date_time = datetime.datetime.now() - last_updated
+            logging.info("diff_date_time: {}".format(diff_date_time))
+            MAX_PAGE = int(os.getenv("MAX_PAGE_LEET_CODE", "15"))
+            if last_page >= MAX_PAGE: 
+                if diff_date_time.days <= 1:
+                     time.sleep(60)
+                     continue
+                else:
+                    last_page = 1
 
-            last_page = 1
-            logging.info('Start scan leetcode ranking from page 1')
+            logging.info('Start scan leetcode ranking from page {}'.format(last_page))
             scan_ranking(mongo_db, last_page)
             cache.set('last_updated_format', datetime.datetime.now().strftime("%B %d, %Y"), timeout=60 * 60 * 24)            
             logging.info('Finish scan leetcode ranking')
@@ -80,7 +89,7 @@ def start_scan():
             logging.info('Complete rebuild index')
             mongo_client.close()
         # Rescan every day
-        time.sleep(60 * 60 * 24)
+        time.sleep(5)
 
 #Try to ping website to avoid instance sleeping
 def ping():
