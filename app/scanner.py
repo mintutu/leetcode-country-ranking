@@ -54,7 +54,7 @@ def scan_ranking(mongo_db, last_page):
             db_mongo.delete_users_by_page(mongo_db, i)
             db_mongo.insert_users(mongo_db, users)
             db_mongo.store_last_update(mongo_db, i)
-            logging.info("Inserted to DB page {}".format(i))
+            logging.info("Inserted to DB page {} with {} users".format(i, len(users)))
             time.sleep(1)
 
 
